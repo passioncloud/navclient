@@ -1,7 +1,31 @@
-// PORT=3010
-// NAV_COMPANY="Demo Company"
-// NAV_SOAPBASEURL="http://localhost:7047/BC140/WS/Demo%20Company"
-// NAV_ODATABASEURL="http://localhost:7048/BC140/ODataV4"
-// NAV_CREDENTIALTYPE="Windows"
-// NAV_USERNAME="SSG"
-// NAV_PASSWORD="Lynn100"
+const { describe, it, expect } = require("@jest/globals");
+const { soap, odata } = require("../src");
+
+/** @type { Config } */
+const config = {
+    company: "Demo Company",
+    credentialType: "Windows",
+    odataBaseUrl: "http://localhost:7048/BC140/ODataV4",
+    soapBaseUrl: "http://localhost:7047/BC140/WS/Demo%20Company",
+    username: "SSG",
+    password: "Lynn100"
+}
+
+describe('odata', () => {
+    it('fetches employee list using odata', async () => {
+        const response = await odata({
+            method: 'GET',
+            query: {
+                serviceName: 'Employee',
+                count: true,
+                filter: {
+                    property: 'First_Name',
+                    startswith: 'B'
+                },
+                top: 2
+            }
+        }, config);
+        // console.log(response);
+        expect(response.value).toHaveLength(2);
+    });
+})

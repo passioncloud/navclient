@@ -107,7 +107,6 @@ class SoapClient extends NavClient {
             </soap:Body>
         </soap:Envelope>
     `;
-        console.warn(this.namespaceFor(serviceType, serviceName));
         return result;
     }
     namespaceFor(serviceType, serviceName) {
@@ -143,7 +142,8 @@ class SoapClient extends NavClient {
  */
 async function soap(soapBody, config) {
     const soapClient = new SoapClient(config);
-    return soapClient.request(soapBody);
+    const result = await soapClient.request(soapBody);
+    return JSON.parse(result);
 }
 
 module.exports = soap;

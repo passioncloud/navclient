@@ -80,5 +80,5 @@ interface OdataQueryOrderby {
 interface ReportBody {
     reportName: string, 
     ext: 'pdf'|'xlsx'|'docx',
-    [index]: string
+    [index: string]: string
 } 
