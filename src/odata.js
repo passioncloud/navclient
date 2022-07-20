@@ -14,6 +14,11 @@ class OdataClient extends NavClient {
         // @ts-ignore
         return q(query);
     }
+    /**
+     * 
+     * @param {OdataBody} jsonObj 
+     * @returns 
+     */
     async odataRequest(jsonObj) {
         try {
             const config = {
@@ -53,10 +58,10 @@ class OdataClient extends NavClient {
  * @param {Config} config 
  * @returns 
  */
-async function makeOdataRequest(odataBody, config) {
+async function odata(odataBody, config) {
     const odataClient = new OdataClient(config);
     return odataClient.odataRequest(odataBody);
 }
 
-module.exports.makeOdataRequest = makeOdataRequest;
+module.exports = odata;
 

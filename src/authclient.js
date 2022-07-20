@@ -1,11 +1,14 @@
-const axios = require('axios');
-const { NtlmClient } = require('axios-ntlm');
-const config = require('./config.js');
+const axios = require('axios').default;
+const { NtlmClient, AxiosRequestConfig } = require('axios-ntlm');
 
 /** Base class for making authenticated requests to NAV */
 class AuthClient {
+    constructor(config) {
+        this.config = config;
+    }
 }
 class BasicAuthClient extends AuthClient {
+    /** @param { AxiosRequestConfig } config */
     request(config) {
         config.headers = {
             ...config.headers,
@@ -14,29 +17,32 @@ class BasicAuthClient extends AuthClient {
         return axios(config);
     }
     get basicAuthorizationValue() {
-        const username = config.navUsername;
-        const password = config.navPassword;
+        const { username, password } = this.config;
         const cred = Buffer.from((username + ':' + password) || '').toString('base64');
         return 'Basic ' + cred;
     }
-    ;
 }
 class NtlmAuthClient extends AuthClient {
     ntlmClient() {
-        const username = config.navUsername;
-        const password = config.navPassword;
-        return NtlmClient({ username, password, domain: 'UGA' });
+        const { username, password } = this.config;
+        return NtlmClient({ username, password, domain: '' });
     }
+    /** @param { AxiosRequestConfig } config */
     request(config) {
         return this.ntlmClient()(config);
     }
 }
-// factory method that produces the appropriate AuthClient
-function authClientFactory() {
-    switch (config.navCredentialType) {
-        case 'Windows': return new NtlmAuthClient();
-        case 'NavUserPassword': return new BasicAuthClient();
-        default: throw Error(`Unrecognized nav credential type ${config.navCredentialType}. Please use Windows or NavUserPassword`);
+
+/**
+ * factory method that produces the appropriate AuthClient
+ * @param {Config} config 
+ * @returns 
+ */
+function authClientFactory(config) {
+    switch (config.credentialType) {
+        case 'Windows': return new NtlmAuthClient(config);
+        case 'NavUserPassword': return new BasicAuthClient(config);
+        default: throw Error(`Unrecognized nav credential type ${config.credentialType}. Please use Windows or NavUserPassword`);
     }
 }
 module.exports = authClientFactory;

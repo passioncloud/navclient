@@ -1,3 +1,5 @@
+const { Method } = require("axios");
+
 /**
  * Example: {
  *  company: "Test Company",
@@ -25,7 +27,8 @@ interface SoapBody {
 }
 
 interface OdataBody {
-    method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE',
+    method: Method,
+    etag?: string,
     query: {
         serviceName: string,
         id?: string | Record<string, any>,

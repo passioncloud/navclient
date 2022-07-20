@@ -1,5 +1,6 @@
 const { XMLBuilder, XMLParser } = require('fast-xml-parser');
 const NavClient = require('./nav-client.js');
+const { AxiosRequestConfig } = require('axios-ntlm');
 
 class SoapClient extends NavClient {
     /**
@@ -13,8 +14,9 @@ class SoapClient extends NavClient {
             action
         } = soapBody;
         const body = this.xmlBodyFor(soapBody);
+        /** @type { AxiosRequestConfig } */
         const config = {
-            method: 'post',
+            method: 'POST',
             url: `${this.url}/${serviceType}/${serviceName}`,
             headers: {
                 'Content-Type': 'text/xml;',
@@ -139,12 +141,12 @@ class SoapClient extends NavClient {
  * @param {Config} config 
  * @returns 
  */
-async function makeSoapRequest(soapBody, config) {
+async function soap(soapBody, config) {
     const soapClient = new SoapClient(config);
     return soapClient.request(soapBody);
 }
 
-module.exports.makeSoapRequest = makeSoapRequest;
+module.exports = soap;
 
 
 

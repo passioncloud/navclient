@@ -1,5 +1,5 @@
 const { Buffer } = require('node:buffer');
-const { makeSoapRequest } = require('./soap.js');
+const makeSoapRequest = require('./soap.js');
 
 class Report {
     reportBody;
@@ -33,9 +33,9 @@ class Report {
  * @param {ReportBody} reportBody
  * @param {Config} config
  */
-function createReportBuffer(reportBody, config) {
+function reportBuffer(reportBody, config) {
     return new Report(reportBody, config).report();
 }
 
-module.exports = createReportBuffer;
+module.exports = reportBuffer;
 

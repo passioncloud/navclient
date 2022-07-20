@@ -1,9 +1,9 @@
-const { makeSoapRequest } = require('./soap.js');
-const { makeOdataRequest } = require('./odata.js');
-const createReportController = require('./report.js');
+const soap = require('./soap.js');
+const odata = require('./odata.js');
+const reportBuffer = require('./report.js');
 
 
-module.exports = { makeSoapRequest, makeOdataRequest };
+module.exports = { soap, odata, reportBuffer };
 
 
 

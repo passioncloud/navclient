@@ -1,5 +1,6 @@
 const logger = console.log;
 const authClientFactory = require('./authclient.js');
+const { AxiosRequestConfig} = require('axios-ntlm');
 
 class NavClient {
     config;
@@ -15,10 +16,10 @@ class NavClient {
      * setup to connect using NTLM Authentication, the credentials are already configured.
      * Please note that this getter returns a function and the function returned accepts arguments.
      * This means that you can do sth like: this.axios(myRequestConfig);
-     * @param {*} config - please note that this config is different from the config defined on this class.
+     * @param {AxiosRequestConfig} config - please note that this config is different from the config defined on this class.
      */
     axios(config) {
-        return authClientFactory().request(config);
+        return authClientFactory(this.config).request(config);
     }
     /**
      * Produces the url used to access the web service.
