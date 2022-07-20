@@ -1,7 +1,6 @@
-const { describe, it, expect, afterAll } = require("@jest/globals");
+const { describe, it, expect } = require("@jest/globals");
 const { reportBuffer } = require("../src");
 const fs = require('fs');
-const fse = require('fs-extra');
 
 /** @type { Config } */
 const config = {
