@@ -1,4 +1,3 @@
-const logger = console.log;
 const authClientFactory = require('./authclient.js');
 const { AxiosRequestConfig} = require('axios-ntlm');
 
@@ -29,7 +28,7 @@ class NavClient {
         throw Error('Not implemented')
     }
     cleanStatusMessage(errorMessage) {
-        console.error(errorMessage);
+        // console.error(errorMessage);
         // based on nav-api/src/soap.js#getStatusMessage
         let startPhrase = '{"string":"';
         if (errorMessage.includes(startPhrase)) {

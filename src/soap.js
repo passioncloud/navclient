@@ -40,9 +40,6 @@ class SoapClient extends NavClient {
     enrichError(error) {
         let body, statusCode, statusMessage;
         if (error.response) {
-            console.info(Object.keys(error.response));
-            console.info(Object.values(error.response));
-            console.info(Object.keys(error.response.config));
             try {
                 body = JSON.parse(this.parseSoapErrorResponse(error.response.data));
                 statusMessage = body['faultstring'] || error.response.statusText;
@@ -75,8 +72,7 @@ class SoapClient extends NavClient {
             return JSON.stringify(body);
         }
         catch (e) {
-            console.info('soap response is', this.jsonObjFor(data));
-            console.error(e);
+            // console.info('soap response is', this.jsonObjFor(data));
             throw e;
         }
     }
